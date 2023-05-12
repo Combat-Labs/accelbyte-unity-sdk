@@ -9,8 +9,9 @@ namespace AccelByte.Core
 {
     internal class WebRequestSchedulerCoroutine : WebRequestScheduler
     {
-        CoroutineRunner coroutineRunner;
-        bool isRunning;
+        private readonly CoroutineRunner coroutineRunner;
+        private Coroutine updateCoroutine;
+        private bool isRunning;
 
         public WebRequestSchedulerCoroutine(CoroutineRunner coroutineRunner)
         {
@@ -26,19 +27,28 @@ namespace AccelByte.Core
         internal override void StartScheduler()
         {
             isRunning = true;
-            coroutineRunner.Run(Update());
+            if (updateCoroutine != null)
+            {
+                coroutineRunner.Stop(updateCoroutine);
+            }
+            updateCoroutine = coroutineRunner.Run(Update());
         }
 
         internal override void StopScheduler()
         {
             isRunning = false;
+            if (updateCoroutine != null)
+            {
+                coroutineRunner.Stop(updateCoroutine);
+                updateCoroutine = null;
+            }
         }
 
         private IEnumerator Update()
         {
             do
             {
-                if (requestTask != null && requestTask.Count > 0)
+                if (requestTask.Count > 0)
                 {
                     if (requestTask[0].DelayMs > 0)
                     {

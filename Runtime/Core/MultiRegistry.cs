@@ -75,7 +75,7 @@ namespace AccelByte.Core
         {
             CoroutineRunner coroutineRunner = new CoroutineRunner();
 
-            AccelByteHttpClient httpClient = new AccelByteHttpClient();
+            AccelByteHttpClient httpClient = new AccelByteHttpClient(runner: coroutineRunner);
             httpClient.SetCredentials(oAuthConfig.ClientId, oAuthConfig.ClientSecret);
             httpClient.SetBaseUri( new Uri( config.BaseUrl ) );
 
@@ -153,7 +153,7 @@ namespace AccelByte.Core
         {
             CoroutineRunner coroutineRunner = new CoroutineRunner();
 
-            AccelByteHttpClient httpClient = new AccelByteHttpClient();
+            AccelByteHttpClient httpClient = new AccelByteHttpClient(runner: coroutineRunner);
             httpClient.SetCredentials( serverOAuthConfig.ClientId, serverOAuthConfig.ClientSecret );
             httpClient.SetBaseUri( new Uri( serverConfig.BaseUrl ) );
 

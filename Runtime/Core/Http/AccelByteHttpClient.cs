@@ -35,7 +35,7 @@ namespace AccelByte.Core
 
         private AccelByteHttpCache<IAccelByteCacheImplementation<AccelByteCacheItem<AccelByteHttpCacheData>>> httpCache;
 
-        public AccelByteHttpClient(IHttpRequestSender requestSender = null)
+        public AccelByteHttpClient(IHttpRequestSender requestSender = null, CoroutineRunner runner = null)
         {
             if(requestSender != null)
             {
@@ -43,7 +43,7 @@ namespace AccelByte.Core
             }
             else
             {
-                var defaultSenderScheduler = new WebRequestSchedulerAsync();
+                WebRequestScheduler defaultSenderScheduler = runner == null ? new WebRequestSchedulerAsync() : new WebRequestSchedulerCoroutine(runner);
                 var defaultSender = new UnityHttpRequestSender(defaultSenderScheduler);
                 this.sender = defaultSender;
             }

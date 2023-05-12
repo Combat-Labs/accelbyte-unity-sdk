@@ -70,7 +70,10 @@ namespace AccelByte.Core
             _disposed = true;
             GC.SuppressFinalize(this);
 
-            WebRequest?.Dispose();
+            if (WebRequest == null) return;
+
+            if (!WebRequest.isDone) WebRequest.Abort();
+            WebRequest.Dispose();
         }
     }
 

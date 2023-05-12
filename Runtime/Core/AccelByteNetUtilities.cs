@@ -12,7 +12,7 @@ namespace AccelByte.Core
     public static class AccelByteNetUtilities
     {
         private static readonly CoroutineRunner coroutineRunner = new CoroutineRunner();
-        private static readonly IHttpClient HttpClient = new AccelByteHttpClient();
+        private static readonly IHttpClient HttpClient = new AccelByteHttpClient(runner: coroutineRunner);
 
         [Obsolete("ipify supports will be deprecated in future releases)")]
         public static void GetPublicIp(ResultCallback<PublicIp> callback)

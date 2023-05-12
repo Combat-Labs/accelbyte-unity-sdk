@@ -96,7 +96,7 @@ namespace AccelByte.Api
             {
                 if(defaultHttpSender == null)
                 {
-                    var httpSenderScheduler = new WebRequestSchedulerAsync();
+                    var httpSenderScheduler = new WebRequestSchedulerCoroutine(coroutineRunner);
                     defaultHttpSender = new UnityHttpRequestSender(httpSenderScheduler);
                 }
                 return defaultHttpSender;
