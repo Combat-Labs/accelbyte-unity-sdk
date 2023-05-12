@@ -70,7 +70,7 @@ namespace AccelByte.Core {
         }
     }
 
-    public interface IHttpRequestSender
+    public interface IHttpRequestSender : IDisposable
     {
         void AddTask(IHttpRequest request, Action<HttpSendResult> callback, int timeoutMs, uint delayTimeMs);
         void ClearCookies(Uri baseUri);

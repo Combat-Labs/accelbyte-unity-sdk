@@ -91,6 +91,8 @@ namespace AccelByte.Core
         {
             if(newRequestSender != null)
             {
+                sender.Dispose();
+
                 this.sender = newRequestSender;
             }
         }

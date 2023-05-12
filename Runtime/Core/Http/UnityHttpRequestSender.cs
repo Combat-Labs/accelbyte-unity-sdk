@@ -11,10 +11,17 @@ namespace AccelByte.Core
 {
     internal class UnityHttpRequestSender : IHttpRequestSender
     {
-        WebRequestScheduler httpTaskScheduler;
+        private readonly WebRequestScheduler httpTaskScheduler;
+        private bool _disposed = false;
+
         public UnityHttpRequestSender(WebRequestScheduler httpTaskScheduler)
         {
             this.httpTaskScheduler = httpTaskScheduler;
+        }
+
+        ~UnityHttpRequestSender()
+        {
+            Dispose();
         }
 
         public void AddTask(IHttpRequest request, Action<HttpSendResult> callback, int timeoutMs, uint delayTimeMs = 0)
@@ -45,6 +52,16 @@ namespace AccelByte.Core
         public void ClearCookies(Uri uri)
         {
             UnityWebRequest.ClearCookieCache(uri);
+        }
+
+        public void Dispose()
+        {
+            if (_disposed) return;
+
+            _disposed = true;
+            GC.SuppressFinalize(this);
+
+            httpTaskScheduler.Dispose();
         }
 
         private HttpSendResult ParseWebRequestResult(UnityWebRequest unityWebRequest)

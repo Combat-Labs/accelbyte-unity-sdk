@@ -103,6 +103,8 @@ namespace AccelByte.Api
             }
             set
             {
+                if (defaultHttpSender != null) defaultHttpSender.Dispose();
+
                 defaultHttpSender = value;
                 UpdateHttpClientSender(defaultHttpSender);
             }
